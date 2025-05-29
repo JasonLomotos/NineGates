@@ -70,6 +70,7 @@ public class menuController : MonoBehaviour
     public void newGameDialogueYes()
     {
         SceneManager.LoadScene(loadState1);
+        
     }
 
     public void loadGameDialogueYes()
