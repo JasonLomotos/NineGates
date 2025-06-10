@@ -56,7 +56,6 @@ public class ThirdPersonController : MonoBehaviour
             Debug.LogWarning("Hey buddy, you don't have the Animator component in your player. Without it, the animations won't work.");
     }
 
-
     // Update is only being used here to identify keys and trigger animations
     void Update()
     {
