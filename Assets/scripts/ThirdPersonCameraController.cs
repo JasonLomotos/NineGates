@@ -5,10 +5,12 @@ using UnityEngine.InputSystem;
 
 public class ThirdPersonCameraController : MonoBehaviour
 {
+    [SerializeField] private Transform cameraTransform;
     [SerializeField] private float zoomSpeed = 2f;
     [SerializeField] private float zoomLerpSpeed = 10f;
     [SerializeField] private float minDistance = 3f;
     [SerializeField] private float maxDistance = 15f;
+    [SerializeField] private bool shouldFaceMoveDirection = false;
 
     private PlayerControls controls;
     private CinemachineCamera cam;
@@ -38,6 +40,7 @@ public class ThirdPersonCameraController : MonoBehaviour
 
     void Update()
     {
+
         if (scrollDelta.y != 0)
         {
             if (scrollDelta.y > 0)

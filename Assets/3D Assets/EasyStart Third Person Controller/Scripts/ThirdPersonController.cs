@@ -27,6 +27,11 @@ public class ThirdPersonController : MonoBehaviour
     [Space]
     [Tooltip("Force that pulls the player down. Changing this value causes all movement, jumping and falling to be changed as well.")]
     public float gravity = 9.8f;
+    [Tooltip("Key to toggle the cursor on/off.")]
+    public KeyCode toggleKey = KeyCode.M;
+
+    [Tooltip("Start with cursor visible?")]
+    public bool cursorVisibleAtStart = false;
 
     float jumpElapsedTime = 0;
 
@@ -54,6 +59,9 @@ public class ThirdPersonController : MonoBehaviour
         // Message informing the user that they forgot to add an animator
         if (animator == null)
             Debug.LogWarning("Hey buddy, you don't have the Animator component in your player. Without it, the animations won't work.");
+
+        // Cursor visibility
+        SetCursor(cursorVisibleAtStart);
     }
 
     // Update is only being used here to identify keys and trigger animations
@@ -69,34 +77,34 @@ public class ThirdPersonController : MonoBehaviour
         inputCrouch = Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.JoystickButton1);
 
         // Check if you pressed the crouch input key and change the player's state
-        if ( inputCrouch )
+        if (inputCrouch)
             isCrouching = !isCrouching;
 
         // Run and Crouch animation
         // If dont have animator component, this block wont run
-        if ( cc.isGrounded && animator != null )
+        if (cc.isGrounded && animator != null)
         {
 
             // Crouch
             // Note: The crouch animation does not shrink the character's collider
             animator.SetBool("crouch", isCrouching);
-            
+
             // Run
             float minimumSpeed = 0.9f;
-            animator.SetBool("run", cc.velocity.magnitude > minimumSpeed );
+            animator.SetBool("run", cc.velocity.magnitude > minimumSpeed);
 
             // Sprint
             isSprinting = cc.velocity.magnitude > minimumSpeed && inputSprint;
-            animator.SetBool("sprint", isSprinting );
+            animator.SetBool("sprint", isSprinting);
 
         }
 
         // Jump animation
-        if( animator != null )
-            animator.SetBool("air", cc.isGrounded == false );
+        if (animator != null)
+            animator.SetBool("air", cc.isGrounded == false);
 
         // Handle can jump or not
-        if ( inputJump && cc.isGrounded )
+        if (inputJump && cc.isGrounded)
         {
             isJumping = true;
             // Disable crounching when jumping
@@ -104,6 +112,12 @@ public class ThirdPersonController : MonoBehaviour
         }
 
         HeadHittingDetect();
+
+        if (Input.GetKeyDown(toggleKey))
+        {
+            bool currentlyVisible = Cursor.visible;
+            SetCursor(!currentlyVisible);
+        }
 
     }
 
@@ -114,10 +128,10 @@ public class ThirdPersonController : MonoBehaviour
 
         // Sprinting velocity boost or crounching desacelerate
         float velocityAdittion = 0;
-        if ( isSprinting )
+        if (isSprinting)
             velocityAdittion = sprintAdittion;
         if (isCrouching)
-            velocityAdittion =  - (velocity * 0.50f); // -50% velocity
+            velocityAdittion = -(velocity * 0.50f); // -50% velocity
 
         // Direction movement
         float directionX = inputHorizontal * (velocity + velocityAdittion) * Time.deltaTime;
@@ -125,7 +139,7 @@ public class ThirdPersonController : MonoBehaviour
         float directionY = 0;
 
         // Jump handler
-        if ( isJumping )
+        if (isJumping)
         {
 
             // Apply inertia and smoothness when climbing the jump
@@ -144,7 +158,7 @@ public class ThirdPersonController : MonoBehaviour
         // Add gravity to Y axis
         directionY = directionY - gravity * Time.deltaTime;
 
-        
+
         // --- Character rotation --- 
 
         Vector3 forward = Camera.main.transform.forward;
@@ -169,12 +183,12 @@ public class ThirdPersonController : MonoBehaviour
 
         // --- End rotation ---
 
-        
+
         Vector3 verticalDirection = Vector3.up * directionY;
         Vector3 horizontalDirection = forward + right;
 
         Vector3 moviment = verticalDirection + horizontalDirection;
-        cc.Move( moviment );
+        cc.Move(moviment);
 
     }
 
@@ -194,6 +208,12 @@ public class ThirdPersonController : MonoBehaviour
             jumpElapsedTime = 0;
             isJumping = false;
         }
+    }
+    
+    void SetCursor(bool visible)
+    {
+        Cursor.visible = visible;
+        Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
     }
 
 }
