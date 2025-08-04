@@ -3,12 +3,12 @@
     "maps": [
         {
             "name": "Player",
-            "id": "b392f8fe-6a56-43a9-a1ca-60ed1de619c4",
+            "id": "e5227b14-ca5f-4688-89c3-78fc7e4bb9dc",
             "actions": [
                 {
                     "name": "Movement",
                     "type": "Value",
-                    "id": "1c0b5653-2df6-448c-a013-0e0ba7142539",
+                    "id": "3f898ea2-f30c-4ea2-9f41-8a17796e6d07",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -17,7 +17,7 @@
                 {
                     "name": "Jump",
                     "type": "Button",
-                    "id": "b7f67eaa-9099-4ece-a80f-4c599b8041e9",
+                    "id": "704f3998-8d79-4c39-a385-9f8a751aa995",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -26,7 +26,7 @@
                 {
                     "name": "Crouch",
                     "type": "Button",
-                    "id": "b60bc60c-0b3e-443f-aed9-54a8184439f2",
+                    "id": "2b0859a7-c737-402b-964e-d1a6b53e46d4",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -35,83 +35,17 @@
                 {
                     "name": "Sprint",
                     "type": "Button",
-                    "id": "422ea7a8-d1ae-4041-9792-61e766ed1a48",
+                    "id": "39abf323-cb6c-4d0b-bd0d-b2ca1a1c57cd",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
-                    "name": "",
-                    "id": "e5eb93c9-10b5-4ffd-8c2f-b7def9f073ca",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "35b77bfe-620f-43f9-9619-07cac6a71588",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "bdda2a63-3660-49f3-a588-34333029f343",
-                    "path": "<Keyboard>/leftCtrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Crouch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a2425f85-505b-4681-b944-1a972e9e20bb",
-                    "path": "<Gamepad>/rightShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Crouch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e398c411-a280-4448-8e15-8de1699f427b",
-                    "path": "<Keyboard>/leftShift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Sprint",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5e2f08e2-41c1-484e-8314-cf3681cff298",
-                    "path": "<Gamepad>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Sprint",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "WASD",
-                    "id": "ddbc5501-c692-4042-8776-b0b273098dba",
+                    "name": "2D Vector",
+                    "id": "edc9f186-aef6-4e47-8d75-ed5df4cf78bd",
                     "path": "2DVector",
                     "interactions": "",
                     "processors": "",
@@ -122,7 +56,7 @@
                 },
                 {
                     "name": "up",
-                    "id": "30fce346-c282-4b91-99be-9d77e20dc5a2",
+                    "id": "a997757d-25eb-45ef-bd66-29d2ae73142d",
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
@@ -133,7 +67,7 @@
                 },
                 {
                     "name": "down",
-                    "id": "1d1c290d-06ed-4f03-b5d1-6c878729e000",
+                    "id": "07e8f471-37cd-40d1-b241-149c3c62f334",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
@@ -144,7 +78,7 @@
                 },
                 {
                     "name": "left",
-                    "id": "3f42b157-20bf-4850-a5dc-ca46e50f4e60",
+                    "id": "5c763053-1433-4c7a-afee-142926695adc",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -155,7 +89,7 @@
                 },
                 {
                     "name": "right",
-                    "id": "07592f32-f319-4e61-a324-625c586e2356",
+                    "id": "111bfac0-c31c-4033-8363-fb4d2dca9f5d",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -166,40 +100,34 @@
                 },
                 {
                     "name": "",
-                    "id": "e99bec14-5580-41a4-855e-b7adb6b487db",
-                    "path": "<Gamepad>/leftStick",
+                    "id": "5b9088bd-6932-428c-a609-32aae9d0c9df",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "CameraControls",
-            "id": "aefe1daf-45b2-4984-a7d4-337234245026",
-            "actions": [
-                {
-                    "name": "MouseZoom",
-                    "type": "Value",
-                    "id": "770dfeb4-6834-4a98-aa73-eae9cd43df59",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                }
-            ],
-            "bindings": [
+                },
                 {
                     "name": "",
-                    "id": "48b26323-023e-4a64-a6b3-abbe6ee2f59e",
-                    "path": "<Mouse>/scroll",
+                    "id": "f064ad98-7bc2-4bed-8ca7-5dd2caaa684e",
+                    "path": "<Keyboard>/leftCtrl",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MouseZoom",
+                    "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "45a717a8-2ec0-4e47-a7f4-ec603ffe42df",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sprint",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

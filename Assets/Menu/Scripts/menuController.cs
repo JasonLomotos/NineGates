@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-using DevionGames.InventorySystem;
+
 public class menuController : MonoBehaviour
 {
     [Header("Volume")]
