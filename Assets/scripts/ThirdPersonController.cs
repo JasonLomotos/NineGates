@@ -1,21 +1,8 @@
-﻿
-using UnityEditor.VersionControl;
-using UnityEngine;
+﻿using UnityEngine;
 
-/*
-    This file has a commented version with details about how each line works. 
-    The commented version contains code that is easier and simpler to read. This file is minified.
-*/
-
-
-/// <summary>
-/// Main script for third-person movement of the character in the game.
-/// Make sure that the object that will receive this script (the player) 
-/// has the Player tag and the Character Controller component.
-/// </summary>
 public class ThirdPersonController : MonoBehaviour
 {
-
+    // All your public variables (velocity, jumpForce, etc.) remain the same.
     [Tooltip("Speed ​​at which the character moves. It is not affected by gravity or jumping.")]
     public float velocity = 5f;
     [Tooltip("This value is added to the speed value while the character is sprinting.")]
@@ -29,19 +16,15 @@ public class ThirdPersonController : MonoBehaviour
     public float gravity = 9.8f;
     [Tooltip("Key to toggle the cursor on/off.")]
     public KeyCode toggleKey = KeyCode.M;
-
     [Tooltip("Start with cursor visible?")]
     public bool cursorVisibleAtStart = false;
 
+    // Private variables remain the same
     float jumpElapsedTime = 0;
-
-    // Player states
     bool isJumping = false;
     bool isSprinting = false;
     bool isCrouching = false;
     bool wasAirborne = false;
-
-    // Inputs
     float inputHorizontal;
     float inputVertical;
     bool inputJump;
@@ -51,85 +34,56 @@ public class ThirdPersonController : MonoBehaviour
     Animator animator;
     CharacterController cc;
 
-
     void Start()
     {
         cc = GetComponent<CharacterController>();
-        if (cc == null)
-        {
-            Debug.LogError("ThirdPersonController: No CharacterController found on this GameObject.");
-            enabled = false; // Disable script to prevent further errors
-            return;
-        }
-
         animator = GetComponent<Animator>();
-        if (animator == null)
-            Debug.LogWarning("ThirdPersonController: No Animator component found.");
-
         SetCursor(cursorVisibleAtStart);
-
     }
 
-    // Update is only being used here to identify keys and trigger animations
     void Update()
     {
+        // --- NEW: Check if the character is currently in the landing animation state ---
+        if (animator != null && animator.GetCurrentAnimatorStateInfo(0).IsName("Landing"))
+        {
+            // If we are landing, reset movement inputs and do nothing else this frame.
+            inputHorizontal = 0;
+            inputVertical = 0;
+            return; // This line stops the rest of the Update function from running
+        }
 
-        // Input checkers
+        // The rest of the Update function remains the same
         inputHorizontal = Input.GetAxis("Horizontal");
         inputVertical = Input.GetAxis("Vertical");
-        inputJump = Input.GetAxis("Jump") == 1f;
         inputSprint = Input.GetAxis("Fire3") == 1f;
-        // Unfortunately GetAxis does not work with GetKeyDown, so inputs must be taken individually
+        inputJump = Input.GetAxis("Jump") == 1f;
         inputCrouch = Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.JoystickButton1);
 
-        // Check if you pressed the crouch input key and change the player's state
         if (inputCrouch)
             isCrouching = !isCrouching;
 
-        // Run and Crouch animation
-        // If dont have animator component, this block wont run
         if (cc.isGrounded && animator != null)
         {
-
-            // Crouch
-            // Note: The crouch animation does not shrink the character's collider
             animator.SetBool("crouch", isCrouching);
-
-            // Run
             float minimumSpeed = 0.9f;
             animator.SetBool("run", cc.velocity.magnitude > minimumSpeed);
-
-            // Sprint
             isSprinting = cc.velocity.magnitude > minimumSpeed && inputSprint;
             animator.SetBool("sprint", isSprinting);
-
         }
 
-        // Jump animation
         if (animator != null)
             animator.SetBool("air", !cc.isGrounded);
 
-        // Handle can jump or not
         if (inputJump && cc.isGrounded)
         {
             isJumping = true;
-            // Disable crounching when jumping
-            //isCrouching = false; 
         }
 
-        // Detect landing
         if (wasAirborne && cc.isGrounded)
         {
-            animator.SetTrigger("land"); // We'll add this trigger to Animator
+            animator.SetTrigger("land");
         }
         wasAirborne = !cc.isGrounded;
-
-        bool isLanding = animator.GetCurrentAnimatorStateInfo(0).IsName("Landing");
-        if (isLanding)
-        {
-            // Skip movement input
-            return;
-        }
 
         HeadHittingDetect();
 
@@ -138,35 +92,24 @@ public class ThirdPersonController : MonoBehaviour
             bool currentlyVisible = Cursor.visible;
             SetCursor(!currentlyVisible);
         }
-
     }
 
-
-    // With the inputs and animations defined, FixedUpdate is responsible for applying movements and actions to the player
+    // FixedUpdate remains exactly the same as before
     private void FixedUpdate()
     {
-
-        // Sprinting velocity boost or crounching desacelerate
         float velocityAdittion = 0;
         if (isSprinting)
             velocityAdittion = sprintAdittion;
         if (isCrouching)
-            velocityAdittion = -(velocity * 0.50f); // -50% velocity
+            velocityAdittion = -(velocity * 0.50f);
 
-        // Direction movement
         float directionX = inputHorizontal * (velocity + velocityAdittion) * Time.deltaTime;
         float directionZ = inputVertical * (velocity + velocityAdittion) * Time.deltaTime;
         float directionY = 0;
 
-        // Jump handler
         if (isJumping)
         {
-
-            // Apply inertia and smoothness when climbing the jump
-            // It is not necessary when descending, as gravity itself will gradually pulls
             directionY = Mathf.SmoothStep(jumpForce, jumpForce * 0.30f, jumpElapsedTime / jumpTime) * Time.deltaTime;
-
-            // Jump timer
             jumpElapsedTime += Time.deltaTime;
             if (jumpElapsedTime >= jumpTime)
             {
@@ -175,22 +118,15 @@ public class ThirdPersonController : MonoBehaviour
             }
         }
 
-        // Add gravity to Y axis
         directionY = directionY - gravity * Time.deltaTime;
-
-
-        // --- Character rotation --- 
 
         Vector3 forward = Camera.main.transform.forward;
         Vector3 right = Camera.main.transform.right;
-
         forward.y = 0;
         right.y = 0;
-
         forward.Normalize();
         right.Normalize();
 
-        // Relate the front with the Z direction (depth) and right with X (lateral movement)
         forward = forward * directionZ;
         right = right * directionX;
 
@@ -201,39 +137,28 @@ public class ThirdPersonController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 0.15f);
         }
 
-        // --- End rotation ---
-
-
         Vector3 verticalDirection = Vector3.up * directionY;
         Vector3 horizontalDirection = forward + right;
-
-        Vector3 moviment = verticalDirection + horizontalDirection;
-        cc.Move(moviment);
-
+        cc.Move(verticalDirection + horizontalDirection);
     }
-
-
-    //This function makes the character end his jump if he hits his head on something
+    
+    // The other helper methods remain the same
     void HeadHittingDetect()
     {
+        if (!isJumping) return;
         float headHitDistance = 1.1f;
         Vector3 ccCenter = transform.TransformPoint(cc.center);
         float hitCalc = cc.height / 2f * headHitDistance;
-
-        // Uncomment this line to see the Ray drawed in your characters head
-        // Debug.DrawRay(ccCenter, Vector3.up * headHeight, Color.red);
-
         if (Physics.Raycast(ccCenter, Vector3.up, hitCalc))
         {
             jumpElapsedTime = 0;
             isJumping = false;
         }
     }
-    
+
     void SetCursor(bool visible)
     {
         Cursor.visible = visible;
         Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
     }
-
 }

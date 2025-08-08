@@ -1,0 +1,11 @@
+Model Information:
+* title:	Japanese Red Maple
+* source:	https://sketchfab.com/3d-models/japanese-red-maple-7593d53e3e954240ad69220da9a6e9ff
+* author:	Fallout: Tokugawa (https://sketchfab.com/Fallout-Tokugawa)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Japanese Red Maple" (https://sketchfab.com/3d-models/japanese-red-maple-7593d53e3e954240ad69220da9a6e9ff) by Fallout: Tokugawa (https://sketchfab.com/Fallout-Tokugawa) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
